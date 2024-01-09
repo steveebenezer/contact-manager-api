@@ -10,7 +10,13 @@ namespace ContactManagerApi.Controllers
   [ApiController]
   public class ContactsController: ControllerBase
   {
-    private readonly string _filePath = "contacts.json";
+    private readonly string _filePath;
+
+    public ContactsController(IWebHostEnvironment environment)
+    {
+      _filePath = Path.Combine(environment.ContentRootPath, "Data", "contacts.json");
+    }
+
 
     [HttpGet]
     public IEnumerable<Contact> Get()

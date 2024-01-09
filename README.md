@@ -51,7 +51,7 @@ The API should be running at `http://localhost:5000` (or a different port if spe
 - **Create new Contact:**
 
   ```http
-  POST /api/items
+  POST /api/contacts
   ```
 - **Update Contact by Id:**
 

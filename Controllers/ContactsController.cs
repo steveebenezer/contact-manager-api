@@ -58,14 +58,14 @@ namespace ContactManagerApi.Controllers
 
       if (contactsJson == null)
       {
-        // Handle the case where reading the file failed or the content is null.
-        // You can return an error response or throw an exception based on your requirements.
         return BadRequest("Unable to read contacts file");
       }
 
       var contacts = JsonSerializer.Deserialize<List<Contact>>(contactsJson) ?? new List<Contact>();
 
-      newContact.Id = contacts.Count + 1;
+      int maxId = contacts.Any() ? contacts.Max(c => c.Id) : 0;
+
+      newContact.Id = maxId + 1;
       contacts.Add(newContact);
 
       var updatedJson = JsonSerializer.Serialize(contacts);
@@ -81,8 +81,6 @@ namespace ContactManagerApi.Controllers
 
       if (contactsJson == null)
       {
-        // Handle the case where reading the file failed or the content is null.
-        // You can return an error response or throw an exception based on your requirements.
         return BadRequest("Unable to read contacts file");
       }
 
@@ -93,7 +91,7 @@ namespace ContactManagerApi.Controllers
       if (existingContact == null)
         return NotFound();
 
-      existingContact.Name = updatedContact.Name; // Update other properties as needed
+      existingContact.FirstName = updatedContact.FirstName;
 
       var updatedJson = JsonSerializer.Serialize(contacts);
       System.IO.File.WriteAllText(_filePath, updatedJson);
@@ -108,8 +106,6 @@ namespace ContactManagerApi.Controllers
 
       if (contactsJson == null)
       {
-        // Handle the case where reading the file failed or the content is null.
-        // You can return an error response or throw an exception based on your requirements.
         return BadRequest("Unable to read contacts file");
       }
 
